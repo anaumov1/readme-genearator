@@ -21,6 +21,11 @@ const questions = [
         message: 'Please provide the name of your project.'
     },
     {
+        type: 'input',
+        name: 'description',
+        message: 'Please write a description of your project'
+      },
+    {
         type: 'list',
         name: 'license',
         message: 'Please choose a licence for your project.',
@@ -28,8 +33,8 @@ const questions = [
     },
     {
         type: 'input',
-        name: 'instalation',
-        message: 'What dependancies need to be intalled? Please provide detailed description with commands.'
+        name: 'installation',
+        message: 'What dependancies need to be installed? Please provide detailed description with commands.'
     },
     {
         type: 'input',
@@ -48,10 +53,14 @@ const questions = [
     }
 ];
 
+const promptUser = () => {
+    return inquirer.prompt(questions);
+}
+
 // TODO: Create a function to write README file
 function writeToFile(data) {
     return new Promise((resolve, reject) => {
-        fs.writeFile('./utils/file-generator/README.md', data, err => {
+        fs.writeFile('utils/file-generator/Readme.md', data, err => {
             if (err) {
                 reject(err); 
                 return;
@@ -66,10 +75,19 @@ function writeToFile(data) {
 
 // TODO: Create a function to initialize app
 function init() {
-    inquirer.prompt(questions).then(inquirerResponses => {
-        console.log('Generating README...');
-        writeToFile('Readme.md', generateMarkdown({ ...inquirerResponses }));
-      });
+    promptUser()
+    .then(questions => {
+        return generateMarkdown(questions);
+    })
+    .then(formattedPage => {
+        return writeToFile(formattedPage);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse);
+    })
+    .catch(err => {
+        console.log(err);
+    })
     }
 
 
