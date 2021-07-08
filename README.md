@@ -3,6 +3,8 @@
 
   ## Description
   ReadMe Generator App
+  
+  ## Link to the walkthrough video: https://youtu.be/fAtI3IBqy8c
 
 ## Table of contents
 * [Installation](#installation)
